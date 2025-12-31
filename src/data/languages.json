@@ -1,0 +1,107 @@
+[
+  {
+    "code": "en-GB",
+    "label": "English (UK)",
+    "nativeLabel": "English (UK)",
+    "flag": "🇬🇧",
+    "priority": 1
+  },
+  {
+    "code": "de-DE",
+    "label": "German",
+    "nativeLabel": "Deutsch",
+    "flag": "🇩🇪",
+    "priority": 2
+  },
+  {
+    "code": "fr-FR",
+    "label": "French",
+    "nativeLabel": "Français",
+    "flag": "🇫🇷",
+    "priority": 3
+  },
+  {
+    "code": "es-ES",
+    "label": "Spanish",
+    "nativeLabel": "Español",
+    "flag": "🇪🇸",
+    "priority": 4
+  },
+  {
+    "code": "it-IT",
+    "label": "Italian",
+    "nativeLabel": "Italiano",
+    "flag": "🇮🇹",
+    "priority": 5
+  },
+  {
+    "code": "sv-SE",
+    "label": "Swedish",
+    "nativeLabel": "Svenska",
+    "flag": "🇸🇪",
+    "priority": 6
+  },
+  {
+    "code": "nb-NO",
+    "label": "Norwegian",
+    "nativeLabel": "Norsk",
+    "flag": "🇳🇴",
+    "priority": 7
+  },
+  {
+    "code": "da-DK",
+    "label": "Danish",
+    "nativeLabel": "Dansk",
+    "flag": "🇩🇰",
+    "priority": 8
+  },
+  {
+    "code": "fi-FI",
+    "label": "Finnish",
+    "nativeLabel": "Suomi",
+    "flag": "🇫🇮",
+    "priority": 9
+  },
+  {
+    "code": "nl-NL",
+    "label": "Dutch",
+    "nativeLabel": "Nederlands",
+    "flag": "🇳🇱",
+    "priority": 10
+  },
+  {
+    "code": "en-IE",
+    "label": "English (Ireland)",
+    "nativeLabel": "English (Ireland)",
+    "flag": "🇮🇪",
+    "priority": 11
+  },
+  {
+    "code": "pt-PT",
+    "label": "Portuguese",
+    "nativeLabel": "Português",
+    "flag": "🇵🇹",
+    "priority": 12
+  },
+  {
+    "code": "pl-PL",
+    "label": "Polish",
+    "nativeLabel": "Polski",
+    "flag": "🇵🇱",
+    "priority": 13
+  },
+  {
+    "code": "ro-RO",
+    "label": "Romanian",
+    "nativeLabel": "Română",
+    "flag": "🇷🇴",
+    "priority": 14
+  },
+  {
+    "code": "el-GR",
+    "label": "Greek",
+    "nativeLabel": "Ελληνικά",
+    "flag": "🇬🇷",
+    "priority": 15
+  }
+]

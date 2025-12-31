@@ -1,0 +1,39 @@
+# AI Service - Python
+# Separate AI microservice (port 8000)
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# spaCy models
+models/*.pkl
+models/*.json
+
+# Learning data
+data/learning_stats.json
+data/feedback_*.json
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

@@ -1,0 +1,168 @@
+/* ADMIN DASHBOARD STYLES */
+/* Clean, data-focused, no decorations */
+
+.admin-dashboard {
+  max-width: 1400px;
+}
+
+.admin-dashboard h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: #1f2937;
+}
+
+.page-subtitle {
+  margin: 0 0 2rem 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Stats Grid */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value.status {
+  color: #10b981;
+}
+
+.stat-change {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.stat-change.positive {
+  color: #10b981;
+}
+
+/* Sections */
+.admin-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.admin-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.admin-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+/* Activity List */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.activity-time {
+  font-size: 0.8rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.activity-text {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Alert List */
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alert-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border-left: 3px solid;
+}
+
+.alert-item.alert-warning {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.alert-item.alert-error {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.alert-icon {
+  font-size: 1.1rem;
+}
+
+.alert-text {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Empty State */
+.empty {
+  padding: 2rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+/* Loading/Error */
+.admin-loading,
+.admin-error-page {
+  padding: 3rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-sections {
+    grid-template-columns: 1fr;
+  }
+}

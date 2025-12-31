@@ -13,6 +13,7 @@
   
   --border-primary: var(--gray-200);
   --border-secondary: var(--gray-300);
+  --border-color: var(--gray-200);
   
   --accent: var(--accent-mid);
   --accent-gradient: linear-gradient(135deg, var(--accent-start), var(--accent-mid), var(--accent-end));
@@ -38,6 +39,7 @@
   
   --border-primary: var(--gray-800);
   --border-secondary: var(--gray-700);
+  --border-color: var(--gray-700);
   
   --accent: var(--accent-mid);
   --accent-gradient: linear-gradient(135deg, var(--accent-start), var(--accent-mid), var(--accent-end));

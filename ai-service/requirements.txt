@@ -1,0 +1,28 @@
+# AI Service Dependencies
+# No LLM, classical ML only
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+
+# NLP (No LLM)
+spacy==3.7.2
+scikit-learn==1.4.0
+fasttext-wheel==0.9.2
+langdetect==1.0.9
+
+# Data Processing
+numpy==1.26.3
+pandas==2.1.4
+
+# Utilities
+python-dotenv==1.0.0
+httpx==0.26.0
+pyyaml==6.0.1
+
+# Caching
+redis==5.0.1
+
+# Logging
+structlog==24.1.0

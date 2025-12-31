@@ -1,0 +1,95 @@
+{
+  "trustWeights": {
+    "identity": {
+      "emailVerified": 20,
+      "phoneVerified": 20,
+      "idVerified": 30,
+      "backgroundCheck": 30,
+      "weight": 0.25
+    },
+    "completedJobs": {
+      "pointsPerJob": 2,
+      "maxPoints": 100,
+      "weight": 0.30
+    },
+    "reviews": {
+      "maxRating": 5,
+      "weight": 0.25
+    },
+    "onTime": {
+      "weight": 0.10
+    },
+    "disputes": {
+      "penaltyPerDispute": -10,
+      "weight": 0.10
+    }
+  },
+  "matchingWeights": {
+    "trust": 0.4,
+    "distance": 0.3,
+    "availability": 0.2,
+    "price": 0.1
+  },
+  "matchingConfig": {
+    "maxDistanceKm": 50,
+    "maxMatchingAttempts": 3,
+    "autoAssignTimeoutMinutes": 30,
+    "minTrustScore": 20,
+    "topCandidates": 3
+  },
+  "riskThresholds": {
+    "newUserHighValueTask": {
+      "taskValueLimit": 1000,
+      "riskPoints": 30
+    },
+    "recentCancellations": {
+      "timeWindowDays": 7,
+      "maxCancellations": 3,
+      "riskPoints": 20
+    },
+    "disputeRatio": {
+      "maxRatio": 0.2,
+      "riskPoints": 50
+    },
+    "highRiskThreshold": 70,
+    "mediumRiskThreshold": 40
+  },
+  "pricingRules": {
+    "baseFeePercentage": 15,
+    "distanceFee": {
+      "enabled": true,
+      "perKm": 2,
+      "maxFee": 100
+    },
+    "timeFee": {
+      "enabled": true,
+      "perHour": 50,
+      "urgentMultiplier": 1.5
+    },
+    "difficultyMultipliers": {
+      "easy": 1.0,
+      "medium": 1.3,
+      "hard": 1.6,
+      "expert": 2.0
+    },
+    "minimumWages": {
+      "SE": 150,
+      "NO": 180,
+      "DK": 160,
+      "FI": 140,
+      "DE": 120
+    }
+  },
+  "workflowRules": {
+    "autoReleasePayment": {
+      "hoursAfterCompletion": 24,
+      "requiresReview": false
+    },
+    "autoCancel": {
+      "hoursWithoutResponse": 48
+    },
+    "autoDispute": {
+      "daysAfterCompletion": 7
+    }
+  }
+}

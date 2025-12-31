@@ -1,13 +1,34 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import './database.js';
+import authRoutes from './routes/auth.js';
+import requestRoutes from './routes/requests.js';
+import bookingRoutes from './routes/bookings.js';
+import messageRoutes from './routes/messages.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+
+dotenv.config();
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// AI Chat endpoint
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/messages', messageRoutes);
+
+// AI Chat endpoint (mock)
 app.post('/api/ai/chat', (req, res) => {
   const { tenantId, locale, messages, context, sessionId } = req.body;
 
@@ -54,6 +75,15 @@ app.post('/api/ai/chat', (req, res) => {
   }, 800); // Simulate network delay
 });
 
+// Error handlers (must be last)
+app.use(notFoundHandler);
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`✅ Helpro API server running on http://localhost:${PORT}`);
+  console.log(`📦 Database: server/helpro.db`);
+  console.log(`🔐 Auth endpoints: /api/auth/*`);
+  console.log(`📝 Request endpoints: /api/requests/*`);
+  console.log(`📅 Booking endpoints: /api/bookings/*`);
+  console.log(`💬 Message endpoints: /api/messages/*`);
 });

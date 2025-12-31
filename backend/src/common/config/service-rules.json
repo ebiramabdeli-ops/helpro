@@ -1,0 +1,371 @@
+{
+  "serviceCategories": {
+    "cleaning": {
+      "slug": "cleaning",
+      "name": "Cleaning Services",
+      "icon": "🏠",
+      "minProviderLevel": "L1",
+      "requiresLicense": false,
+      "requiresVehicle": false,
+      "requiresTools": true,
+      "basePrice": 25,
+      "pricingModel": "hourly",
+      "estimatedDuration": 120,
+      "insuranceRequired": "basic",
+      "services": {
+        "home_cleaning": {
+          "name": "Home Cleaning",
+          "description": "Regular apartment/house cleaning",
+          "minPrice": 50,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "deep_cleaning": {
+          "name": "Deep Cleaning",
+          "description": "Thorough cleaning including appliances",
+          "minPrice": 100,
+          "maxPrice": 300,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "move_out_cleaning": {
+          "name": "Move-Out Cleaning (Flyttstäd)",
+          "description": "Cleaning for apartment handover",
+          "minPrice": 150,
+          "maxPrice": 400,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L2"
+        },
+        "office_cleaning": {
+          "name": "Office Cleaning",
+          "description": "Commercial office cleaning",
+          "minPrice": 80,
+          "maxPrice": 500,
+          "targetCustomer": "B2B",
+          "requiredVerification": "L2"
+        },
+        "hotel_turnover": {
+          "name": "Hotel/Airbnb Turnover",
+          "description": "Fast turnover cleaning",
+          "minPrice": 40,
+          "maxPrice": 120,
+          "targetCustomer": "B2B",
+          "requiredVerification": "L2"
+        }
+      }
+    },
+    "moving": {
+      "slug": "moving",
+      "name": "Moving & Delivery",
+      "icon": "📦",
+      "minProviderLevel": "L1",
+      "requiresLicense": false,
+      "requiresVehicle": true,
+      "requiresTools": false,
+      "basePrice": 40,
+      "pricingModel": "distance_based",
+      "estimatedDuration": 180,
+      "insuranceRequired": "enhanced",
+      "services": {
+        "pickup_delivery": {
+          "name": "Pickup & Delivery",
+          "description": "Same-day or scheduled delivery",
+          "minPrice": 30,
+          "maxPrice": 200,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "moving_help": {
+          "name": "Moving Help",
+          "description": "Full apartment/house move",
+          "minPrice": 200,
+          "maxPrice": 1000,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L2"
+        },
+        "furniture_transport": {
+          "name": "Furniture Transport",
+          "description": "Single furniture items",
+          "minPrice": 50,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        }
+      }
+    },
+    "recycling": {
+      "slug": "recycling",
+      "name": "Recycling & Waste",
+      "icon": "♻️",
+      "minProviderLevel": "L1",
+      "requiresLicense": false,
+      "requiresVehicle": true,
+      "requiresTools": false,
+      "basePrice": 35,
+      "pricingModel": "volume_based",
+      "estimatedDuration": 90,
+      "insuranceRequired": "basic",
+      "services": {
+        "bulky_waste": {
+          "name": "Bulky Waste (Grovsopor)",
+          "description": "Large items to recycling center",
+          "minPrice": 40,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1",
+          "requiresProofOfDisposal": true
+        },
+        "recycling_dropoff": {
+          "name": "Recycling Center Drop-off",
+          "description": "Återvinning center transport",
+          "minPrice": 50,
+          "maxPrice": 200,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1",
+          "requiresProofOfDisposal": true
+        },
+        "junk_hauling": {
+          "name": "Junk Hauling",
+          "description": "Remove and dispose multiple items",
+          "minPrice": 80,
+          "maxPrice": 300,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L2",
+          "requiresProofOfDisposal": true
+        }
+      }
+    },
+    "handyman": {
+      "slug": "handyman",
+      "name": "Handyman & Repairs",
+      "icon": "🛠️",
+      "minProviderLevel": "L1",
+      "requiresLicense": false,
+      "requiresVehicle": false,
+      "requiresTools": true,
+      "basePrice": 45,
+      "pricingModel": "hourly",
+      "estimatedDuration": 120,
+      "insuranceRequired": "enhanced",
+      "services": {
+        "furniture_assembly": {
+          "name": "IKEA/Furniture Assembly",
+          "description": "Assemble furniture from flat-pack",
+          "minPrice": 50,
+          "maxPrice": 200,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "tv_mounting": {
+          "name": "TV Mounting",
+          "description": "Mount TV on wall with bracket",
+          "minPrice": 60,
+          "maxPrice": 120,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "shelf_installation": {
+          "name": "Shelf/Curtain Rail Installation",
+          "description": "Drill and install shelves/rails",
+          "minPrice": 40,
+          "maxPrice": 100,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "minor_repairs": {
+          "name": "Minor Repairs",
+          "description": "Door handles, locks, sealing",
+          "minPrice": 50,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        }
+      }
+    },
+    "technical": {
+      "slug": "technical",
+      "name": "Technical Home Services",
+      "icon": "💡",
+      "minProviderLevel": "L2",
+      "requiresLicense": true,
+      "requiresVehicle": false,
+      "requiresTools": true,
+      "basePrice": 60,
+      "pricingModel": "hourly",
+      "estimatedDuration": 90,
+      "insuranceRequired": "professional",
+      "services": {
+        "light_electrical": {
+          "name": "Light Electrical Work",
+          "description": "Switches, outlets, lights",
+          "minPrice": 80,
+          "maxPrice": 300,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L2",
+          "requiredLicense": "electrician"
+        },
+        "light_plumbing": {
+          "name": "Light Plumbing",
+          "description": "Faucets, leaks, minor repairs",
+          "minPrice": 90,
+          "maxPrice": 350,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L2",
+          "requiredLicense": "plumber"
+        },
+        "smart_home": {
+          "name": "Smart Home Setup",
+          "description": "Philips Hue, Google Home, etc.",
+          "minPrice": 60,
+          "maxPrice": 200,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        }
+      }
+    },
+    "garden": {
+      "slug": "garden",
+      "name": "Garden & Seasonal",
+      "icon": "🌿",
+      "minProviderLevel": "L1",
+      "requiresLicense": false,
+      "requiresVehicle": false,
+      "requiresTools": true,
+      "basePrice": 35,
+      "pricingModel": "area_based",
+      "estimatedDuration": 120,
+      "insuranceRequired": "basic",
+      "services": {
+        "lawn_mowing": {
+          "name": "Lawn Mowing",
+          "description": "Cut grass, regular maintenance",
+          "minPrice": 30,
+          "maxPrice": 120,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "trimming": {
+          "name": "Hedge/Bush Trimming",
+          "description": "Trim hedges and bushes",
+          "minPrice": 40,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1"
+        },
+        "leaf_collection": {
+          "name": "Leaf Collection",
+          "description": "Fall cleanup",
+          "minPrice": 40,
+          "maxPrice": 100,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1",
+          "seasonal": "autumn"
+        },
+        "snow_removal": {
+          "name": "Snow Removal",
+          "description": "Clear driveway/walkway",
+          "minPrice": 40,
+          "maxPrice": 150,
+          "targetCustomer": "B2C",
+          "requiredVerification": "L1",
+          "seasonal": "winter",
+          "urgentPricing": true
+        }
+      }
+    }
+  },
+  "pricingRules": {
+    "urgentBooking": {
+      "description": "Same-day booking",
+      "multiplier": 1.2,
+      "applies": "all"
+    },
+    "weekendPremium": {
+      "description": "Saturday/Sunday booking",
+      "multiplier": 1.15,
+      "applies": "all"
+    },
+    "eveningPremium": {
+      "description": "After 6pm",
+      "multiplier": 1.1,
+      "applies": "all"
+    },
+    "distanceSurcharge": {
+      "description": "Distance > 10km",
+      "formula": "basePrice + (distance - 10) * 5",
+      "applies": ["moving", "recycling"]
+    },
+    "sizePremium": {
+      "small": 0.9,
+      "medium": 1.0,
+      "large": 1.3,
+      "applies": ["cleaning", "moving", "garden"]
+    }
+  },
+  "safetyRules": {
+    "blockedTasks": [
+      {
+        "keywords": ["gas line", "gas installation"],
+        "reason": "Requires certified gas technician",
+        "alternative": "Contact licensed gas company"
+      },
+      {
+        "keywords": ["structural", "load-bearing wall", "foundation"],
+        "reason": "Requires licensed contractor",
+        "alternative": "Contact construction company"
+      },
+      {
+        "keywords": ["asbestos", "lead paint", "toxic"],
+        "reason": "Requires hazmat certification",
+        "alternative": "Contact environmental specialist"
+      },
+      {
+        "keywords": ["high voltage", "electrical panel", "main breaker"],
+        "reason": "Requires master electrician",
+        "alternative": "Contact licensed electrician"
+      },
+      {
+        "keywords": ["sewer line", "main water line"],
+        "reason": "Requires licensed plumber",
+        "alternative": "Contact plumbing company"
+      }
+    ],
+    "verificationGates": {
+      "L0": {
+        "maxJobValue": 0,
+        "allowedServices": [],
+        "description": "Email only - Browse only"
+      },
+      "L1": {
+        "maxJobValue": 50,
+        "allowedServices": ["cleaning", "moving", "recycling", "handyman", "garden"],
+        "description": "KYC verified - Simple jobs"
+      },
+      "L2": {
+        "maxJobValue": 500,
+        "allowedServices": ["cleaning", "moving", "recycling", "handyman", "technical", "garden"],
+        "description": "License verified - Standard jobs"
+      },
+      "L3": {
+        "maxJobValue": 999999,
+        "allowedServices": ["cleaning", "moving", "recycling", "handyman", "technical", "garden"],
+        "b2bAccess": true,
+        "description": "Background check - Premium jobs, B2B"
+      }
+    }
+  },
+  "matchingRules": {
+    "algorithm": "rule_based_scoring",
+    "weights": {
+      "distance": 30,
+      "availability": 25,
+      "trustScore": 20,
+      "rating": 15,
+      "completionRate": 10
+    },
+    "maxDistance": 20,
+    "minRating": 3.5,
+    "minCompletionRate": 80
+  }
+}

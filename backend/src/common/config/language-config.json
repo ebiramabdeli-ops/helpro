@@ -1,0 +1,115 @@
+{
+  "supportedLanguages": {
+    "count": 15,
+    "locales": [
+      "en-GB",
+      "en-IE",
+      "de-DE",
+      "fr-FR",
+      "es-ES",
+      "it-IT",
+      "sv-SE",
+      "nb-NO",
+      "da-DK",
+      "fi-FI",
+      "nl-NL",
+      "pt-PT",
+      "pl-PL",
+      "ro-RO",
+      "el-GR"
+    ]
+  },
+  "translationWorkflow": {
+    "phase1": {
+      "name": "English Base",
+      "status": "completed",
+      "languages": ["en-GB", "en-IE"]
+    },
+    "phase2": {
+      "name": "Core Markets",
+      "status": "pending",
+      "languages": ["de-DE", "fr-FR", "es-ES", "it-IT"],
+      "priority": "high",
+      "estimatedCost": "€10,000",
+      "deadline": "Q1 2026"
+    },
+    "phase3": {
+      "name": "Nordic Markets",
+      "status": "pending",
+      "languages": ["sv-SE", "nb-NO", "da-DK", "fi-FI"],
+      "priority": "medium",
+      "estimatedCost": "€10,000",
+      "deadline": "Q2 2026"
+    },
+    "phase4": {
+      "name": "Other EU Markets",
+      "status": "pending",
+      "languages": ["nl-NL", "pt-PT", "pl-PL", "ro-RO", "el-GR"],
+      "priority": "low",
+      "estimatedCost": "€12,500",
+      "deadline": "Q3 2026"
+    }
+  },
+  "costEstimates": {
+    "oneTimeTranslation": {
+      "totalStrings": 5000,
+      "averageWordsPerString": 5,
+      "totalWords": 25000,
+      "costPerWord": 0.10,
+      "costPerLanguage": 2500,
+      "totalLanguages": 15,
+      "totalCost": 37500,
+      "currency": "EUR"
+    },
+    "maintenancePerUpdate": {
+      "newStringsPerUpdate": 100,
+      "wordsPerUpdate": 500,
+      "costPerLanguage": 50,
+      "totalCost": 750,
+      "frequency": "quarterly"
+    }
+  },
+  "technicalStack": {
+    "frontend": {
+      "web": "React + Vite",
+      "mobile": "React Native (future)",
+      "i18nLibrary": "Custom (migrate to i18next later)"
+    },
+    "backend": {
+      "database": "PostgreSQL",
+      "responseTemplates": "15 languages per template",
+      "chatEngine": "Rule-based with multilingual templates"
+    }
+  },
+  "implementationStatus": {
+    "completed": [
+      "Language selection screen (15 languages)",
+      "Translation system (src/i18n/index.ts)",
+      "Language metadata (languages.json)",
+      "English translations (en.ts)",
+      "Locale detection logic",
+      "localStorage persistence",
+      "14 language file stubs"
+    ],
+    "inProgress": [
+      "Professional translations for 14 languages",
+      "Chat engine multilingual templates"
+    ],
+    "pending": [
+      "Translation management system (TMS)",
+      "Legal text translations (TOS, Privacy)",
+      "Native speaker testing",
+      "SEO optimization per language",
+      "Mobile app language support"
+    ]
+  },
+  "keyDecisions": {
+    "maxLanguages": 15,
+    "autoTranslation": false,
+    "aiTranslation": false,
+    "defaultLocale": "en-GB",
+    "norwegianCode": "nb-NO",
+    "sharedEnglish": true,
+    "fileFormat": "TypeScript"
+  }
+}

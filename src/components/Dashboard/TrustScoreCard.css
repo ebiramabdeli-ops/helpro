@@ -1,0 +1,139 @@
+/* TRUST SCORE CARD STYLES */
+/* DEVELOPER A: Design trust score visualization */
+
+.trust-score-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.trust-score-card h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.2rem;
+  color: #1f2937;
+}
+
+/* Score Circle */
+.score-circle {
+  position: relative;
+  display: inline-block;
+  margin: 1rem 0;
+}
+
+.score-progress {
+  transition: stroke-dasharray 1s ease-out;
+}
+
+.score-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.score-max {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* Level Badge */
+.trust-level {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+
+/* Breakdown */
+.score-breakdown {
+  text-align: left;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.score-breakdown h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.score-breakdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.score-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.breakdown-label {
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+.breakdown-value {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Recommendations */
+.score-recommendations {
+  text-align: left;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.score-recommendations h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.score-recommendations ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.score-recommendations li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.85rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.score-recommendations li::before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+}
+
+/* Loading State */
+.trust-score-card.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
