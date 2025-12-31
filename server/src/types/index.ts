@@ -1,3 +1,11 @@
+export type VerificationStatus = 
+  | 'UNVERIFIED_IDENTITY' 
+  | 'ID_PENDING' 
+  | 'ID_APPROVED' 
+  | 'ID_REJECTED' 
+  | 'BIOMETRIC_PENDING'
+  | 'VERIFIED';
+
 export interface User {
   id: string;
   name: string;
@@ -8,12 +16,20 @@ export interface User {
   phone?: string;
   phoneVerified: boolean;
   emailVerified: boolean;
+  verificationStatus: VerificationStatus;
   mfaEnabled: boolean;
   mfaSecret?: string;
   accountLocked: boolean;
   loginAttempts: number;
   lastLoginAttempt?: Date;
   authProvider?: 'local' | 'google' | 'apple' | 'facebook';
+  biometricConsent?: boolean;
+  biometricConsentDate?: Date;
+  country?: string;
+  language?: string;
+  gdprConsent: boolean;
+  gdprConsentDate: Date;
+  dataRetentionDate?: Date; // Auto-delete date if user is inactive
   createdAt: Date;
   updatedAt: Date;
 }
@@ -81,6 +97,11 @@ export interface Database {
   oauthAccounts: OAuthAccount[];
   emailVerifications: EmailVerification[];
   userProfiles: UserProfile[];
+  identityVerifications: IdentityVerification[];
+  uploadedFiles: UploadedFile[];
+  auditLogs: AuditLog[];
+  dataExportRequests: DataExportRequest[];
+  dataDeletionRequests: DataDeletionRequest[];
 }
 
 export interface OAuthAccount {
@@ -127,7 +148,88 @@ export interface UserProfile {
     phone: boolean;
     identity: boolean;
     address: boolean;
+    biometric: boolean;
   };
+}
+
+export interface IdentityVerification {
+  id: string;
+  userId: string;
+  status: 'pending' | 'approved' | 'rejected' | 'review';
+  documents: IdentityDocument[];
+  biometric?: BiometricData;
+  submittedAt: Date;
+  reviewedAt?: Date;
+  reviewedBy?: string;
+  rejectionReason?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IdentityDocument {
+  id: string;
+  type: 'passport' | 'id_card' | 'drivers_license' | 'residence_permit';
+  frontImage: string;
+  backImage?: string;
+  documentNumber?: string;
+  expiryDate?: Date;
+  country?: string;
+  uploadedAt: Date;
+}
+
+export interface BiometricData {
+  id: string;
+  faceImage: string;
+  livenessCheck: boolean;
+  faceMatchScore?: number;
+  capturedAt: Date;
+  verified: boolean;
+  consentGiven: boolean;
+  processingComplete: boolean;
+  dataDeletedAt?: Date; // Biometric data must be deleted after verification
+  attempts: number;
+}
+
+export interface AuditLog {
+  id: string;
+  userId: string;
+  action: string;
+  performedBy: string; // Admin ID
+  details?: string;
+  ipAddress?: string;
+  timestamp: Date;
+}
+
+export interface DataExportRequest {
+  id: string;
+  userId: string;
+  requestedAt: Date;
+  completedAt?: Date;
+  downloadUrl?: string;
+  expiresAt?: Date;
+  status: 'pending' | 'processing' | 'ready' | 'expired';
+}
+
+export interface DataDeletionRequest {
+  id: string;
+  userId: string;
+  requestedAt: Date;
+  scheduledFor: Date;
+  completedAt?: Date;
+  status: 'pending' | 'scheduled' | 'completed' | 'cancelled';
+  reason?: string;
+}
+
+export interface UploadedFile {
+  id: string;
+  userId: string;
+  filename: string;
+  originalName: string;
+  mimetype: string;
+  size: number;
+  path: string;
+  purpose: 'identity' | 'biometric' | 'avatar' | 'other';
+  uploadedAt: Date;
 }
 
 export interface JWTPayload {

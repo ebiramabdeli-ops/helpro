@@ -15,6 +15,8 @@ export class UserModel {
     phone?: string;
     authProvider?: 'local' | 'google' | 'apple' | 'facebook';
     emailVerified?: boolean;
+    country?: string;
+    language?: string;
   }): Promise<UserSafe> {
     const hashedPassword = data.password ? await bcrypt.hash(data.password, 12) : undefined;
 
@@ -27,10 +29,15 @@ export class UserModel {
       phone: data.phone,
       phoneVerified: false,
       emailVerified: data.emailVerified || false,
+      verificationStatus: 'UNVERIFIED_IDENTITY',
       mfaEnabled: false,
       accountLocked: false,
       loginAttempts: 0,
       authProvider: data.authProvider || 'local',
+      country: data.country,
+      language: data.language,
+      gdprConsent: true,
+      gdprConsentDate: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -203,5 +210,12 @@ export class UserModel {
    */
   static getAll(): UserSafe[] {
     return db.users.map(this.toSafe);
+  }
+
+  /**
+   * Find all users (returns User[], not UserSafe[])
+   */
+  static findAll(): User[] {
+    return db.users;
   }
 }

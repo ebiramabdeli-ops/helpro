@@ -17,6 +17,11 @@ let db: Database = {
   oauthAccounts: [],
   emailVerifications: [],
   userProfiles: [],
+  identityVerifications: [],
+  uploadedFiles: [],
+  auditLogs: [],
+  dataExportRequests: [],
+  dataDeletionRequests: [],
 };
 
 // Load database from file

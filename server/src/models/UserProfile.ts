@@ -13,6 +13,7 @@ export class UserProfileModel {
         phone: false,
         identity: false,
         address: false,
+        biometric: false,
       },
     };
 
@@ -55,7 +56,7 @@ export class UserProfileModel {
    */
   static updateVerification(
     userId: string,
-    verificationType: 'email' | 'phone' | 'identity' | 'address',
+    verificationType: 'email' | 'phone' | 'identity' | 'address' | 'biometric',
     status: boolean
   ): boolean {
     const profile = this.findByUserId(userId) || this.create(userId);
@@ -66,10 +67,13 @@ export class UserProfileModel {
         phone: false,
         identity: false,
         address: false,
+        biometric: false,
       };
     }
 
-    profile.verifications[verificationType] = status;
+    if (profile.verifications) {
+      profile.verifications[verificationType] = status;
+    }
     saveDB();
 
     return true;

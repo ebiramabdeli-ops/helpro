@@ -6,6 +6,9 @@ import './database.js';
 import authRoutes from './routes/auth.js';
 import oauthRoutes from './routes/oauth.js';
 import profileRoutes from './routes/profile.js';
+import verificationRoutes from './routes/verification.js';
+import gdprRoutes from './routes/gdpr.js';
+import adminRoutes from './routes/admin.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { generalLimiter } from './middleware/rateLimiter.js';
 import { securityConfig } from './config/security.js';
@@ -52,6 +55,9 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/oauth', oauthRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/verification', verificationRoutes);
+app.use('/api/gdpr', gdprRoutes);
+app.use('/api/admin', adminRoutes);
 
 // AI Chat endpoint (mock) - TODO: Connect to AI service
 app.post('/api/ai/chat', (req, res) => {
@@ -127,6 +133,34 @@ Profile Endpoints:
   👤 Profile:   GET  /api/profile
   👤 Profile:   PATCH /api/profile
   👤 Profile:   GET  /api/profile/:userId
+
+Identity Verification:
+  🆔 Status:    GET  /api/verification/status
+  ✅ Consent:   POST /api/verification/consent/biometric
+  ❌ Revoke:    POST /api/verification/consent/revoke
+  🆔 Document:  POST /api/verification/document
+  📸 Biometric: POST /api/verification/biometric
+  ✅ Submit:    POST /api/verification/submit
+  📁 File:      GET  /api/verification/file/:fileId
+  
+Admin Verification:
+  👮 Pending:   GET  /api/verification/admin/pending
+  ✅ Approve:   POST /api/verification/admin/:id/approve
+  ❌ Reject:    POST /api/verification/admin/:id/reject
+
+GDPR Compliance:
+  📦 Export:    POST /api/gdpr/export
+  📥 Download:  GET  /api/gdpr/export/:id/download
+  🗑️ Delete:    POST /api/gdpr/delete
+  ↩️  Cancel:    POST /api/gdpr/delete/cancel
+  
+Admin Dashboard:
+  📊 Stats:     GET  /api/admin/stats
+  👥 Users:     GET  /api/admin/users
+  👤 User:      GET  /api/admin/users/:id
+  🔄 Status:    PATCH /api/admin/users/:id/status
+  🆔 Verify:    GET  /api/admin/verifications
+  📋 Logs:      GET  /api/admin/audit-logs
 
 Other:
   🏥 Health:    GET  /api/health
