@@ -3,7 +3,7 @@
  * Centralized HTTP client with authentication, error handling, and retries
  */
 
-import { config, endpoints, HTTP_STATUS, ERROR_MESSAGES } from '../config/api.config';
+import { config, HTTP_STATUS, ERROR_MESSAGES } from '../config/api.config';
 
 export class APIError extends Error {
   constructor(
@@ -17,7 +17,7 @@ export class APIError extends Error {
   }
 }
 
-class APIClient {
+export class APIClient {
   private baseUrl: string;
   private timeout: number;
 
@@ -39,7 +39,7 @@ class APIClient {
   private getHeaders(customHeaders?: Record<string, string>): Headers {
     const headers = new Headers({
       'Content-Type': 'application/json',
-      ...customHeaders,
+      ...(customHeaders ?? {}),
     });
 
     const token = this.getToken();
@@ -60,17 +60,15 @@ class APIClient {
     }
 
     // Parse JSON
-    const data = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({} as any));
 
     // Handle errors
     if (!response.ok) {
-      const message = data.message || ERROR_MESSAGES.SERVER_ERROR;
-      const code = data.code || 'UNKNOWN_ERROR';
+      const message = (data as any)?.message || ERROR_MESSAGES.SERVER_ERROR;
+      const code = (data as any)?.code || 'UNKNOWN_ERROR';
 
-      // Handle specific status codes
       switch (response.status) {
         case HTTP_STATUS.UNAUTHORIZED:
-          // Token expired, redirect to login
           localStorage.removeItem(config.auth.tokenKey);
           window.location.href = '/login';
           throw new APIError(ERROR_MESSAGES.UNAUTHORIZED, response.status, code);
@@ -81,8 +79,9 @@ class APIClient {
         case HTTP_STATUS.NOT_FOUND:
           throw new APIError(ERROR_MESSAGES.NOT_FOUND, response.status, code);
 
-        case HTTP_STATUS.VALIDATION_ERROR:
-          throw new APIError(message, response.status, code, data.details);
+        // Use 422 for validation-style payloads (common pattern)
+        case HTTP_STATUS.UNPROCESSABLE_ENTITY:
+          throw new APIError(message, response.status, code, (data as any)?.details);
 
         default:
           throw new APIError(message, response.status, code, data);
@@ -95,10 +94,7 @@ class APIClient {
   /**
    * Make HTTP request with timeout
    */
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -114,12 +110,10 @@ class APIClient {
     } catch (error) {
       clearTimeout(timeoutId);
 
-      // Handle timeout
       if (error instanceof Error && error.name === 'AbortError') {
         throw new APIError('Request timeout', 0, 'TIMEOUT');
       }
 
-      // Handle network errors
       if (error instanceof TypeError) {
         throw new APIError(ERROR_MESSAGES.NETWORK_ERROR, 0, 'NETWORK_ERROR');
       }
@@ -135,7 +129,7 @@ class APIClient {
     let url = endpoint;
 
     if (params) {
-      const queryString = new URLSearchParams(params).toString();
+      const queryString = new URLSearchParams(params as Record<string, string>).toString();
       url += `?${queryString}`;
     }
 

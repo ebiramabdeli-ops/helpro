@@ -1,16 +1,16 @@
 import { APIClient } from './api-client';
-import config from '../config/api.config';
+import { config } from '../config/api.config';
 
 /**
  * ADMIN API SERVICE
- * 
+ *
  * Handles all admin-specific API calls.
- * 
+ *
  * CRITICAL:
  * - All endpoints require admin token
  * - Backend validates role for every request
  * - 403 Forbidden if not admin
- * 
+ *
  * DEVELOPER B: Backend implements admin routes
  * DEVELOPER A: Frontend uses this service
  */
@@ -27,7 +27,10 @@ class AdminAPIService extends APIClient {
     data?: any
   ): Promise<T> {
     const fullEndpoint = `/admin${endpoint}`;
-    return this.request<T>(fullEndpoint, { method, body: data ? JSON.stringify(data) : undefined });
+    return this.request<T>(fullEndpoint, {
+      method,
+      body: data ? JSON.stringify(data) : undefined,
+    });
   }
 
   // ============================================
@@ -180,11 +183,7 @@ class AdminAPIService extends APIClient {
     return this.adminRequest('GET', `/ai/decisions?${params}`);
   }
 
-  async overrideAIDecision(
-    decisionId: string,
-    newAction: string,
-    reason: string
-  ) {
+  async overrideAIDecision(decisionId: string, newAction: string, reason: string) {
     return this.adminRequest('POST', `/ai/decisions/${decisionId}/override`, {
       newAction,
       reason,

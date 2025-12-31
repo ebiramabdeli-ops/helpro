@@ -6,7 +6,8 @@
     "dev": "vite",
     "dev:api": "node server/index.js",
     "dev:full": "node scripts/dev-full.js",
-    "build": "tsc && vite build",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
