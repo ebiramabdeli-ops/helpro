@@ -1,0 +1,101 @@
+# Docker-Compose Development Configuration
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: helpro-postgres-dev
+    environment:
+      POSTGRES_DB: helpro
+      POSTGRES_USER: helpro
+      POSTGRES_PASSWORD: helpro_password
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - helpro-network
+
+  # NestJS Backend (Development with hot reload)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: helpro-backend-dev
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: helpro
+      DATABASE_PASSWORD: helpro_password
+      DATABASE_NAME: helpro
+      JWT_SECRET: dev-secret-key
+      PORT: 3000
+    volumes:
+      - ./backend/src:/app/src
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - helpro-network
+    command: npm run start:dev
+
+  # Node.js Express Server (Development)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: helpro-server-dev
+    environment:
+      NODE_ENV: development
+      PORT: 8080
+      JWT_SECRET: dev-secret-key
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    networks:
+      - helpro-network
+    command: npm run dev
+
+  # AI Python Service (Development)
+  ai-service:
+    build:
+      context: ./ai-python
+      dockerfile: Dockerfile
+    container_name: helpro-ai-service-dev
+    environment:
+      PYTHONUNBUFFERED: 1
+      PORT: 8000
+    volumes:
+      - ./ai-python:/app
+    ports:
+      - "8000:8000"
+    networks:
+      - helpro-network
+
+  # Frontend (Development with Vite hot reload)
+  frontend:
+    image: node:20-alpine
+    container_name: helpro-frontend-dev
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    networks:
+      - helpro-network
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data_dev:
+    driver: local
+
+networks:
+  helpro-network:
+    driver: bridge

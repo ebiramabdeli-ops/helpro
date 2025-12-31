@@ -202,11 +202,3 @@ export default function Dashboard() {
     </div>
   );
 }
-            <Button variant="secondary">View bookings</Button>
-          </div>
-        </div>
-        <ChatWidget />
-      </Card>
-    </div>
-  );
-}

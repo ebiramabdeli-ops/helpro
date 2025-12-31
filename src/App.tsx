@@ -33,11 +33,18 @@ import ServiceSupport from './pages/ServiceSupport';
 import FeedbackFlow from './pages/FeedbackFlow';
 
 // Admin Pages (INTERNAL ONLY - NEVER IN PUBLIC NAVIGATION)
+// Problem-driven operational dashboard
 import { AdminGuard } from './guards/AdminGuard';
-import AdminLayout from './layouts/AdminLayout';
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminForbidden from './pages/admin/AdminForbidden';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminProblemOverview from './pages/admin/AdminProblemOverview';
+import AdminUserDetail from './pages/admin/AdminUserDetail';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminProviders from './pages/admin/AdminProviders';
+import AdminBookings from './pages/admin/AdminBookings';
+import AdminPayments from './pages/admin/AdminPayments';
+import AdminComplaints from './pages/admin/AdminComplaints';
+import AdminAI from './pages/admin/AdminAI';
+import AdminSystem from './pages/admin/AdminSystem';
 
 function App() {
   const [showLanguageSelection, setShowLanguageSelection] = useState(false);
@@ -105,30 +112,35 @@ function App() {
         {/* ============================================ */}
         {/* ADMIN ROUTES (Internal Only)                 */}
         {/* CRITICAL: Never accessible from public UI    */}
+        {/* Problem-Resolution System                    */}
         {/* ============================================ */}
-        
-        {/* Admin Login (No Guard) */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/forbidden" element={<AdminForbidden />} />
         
         {/* Protected Admin Routes */}
         <Route
-          path="/admin/*"
+          path="/admin"
           element={
             <AdminGuard>
-              <AdminLayout />
+              <AdminLayout>
+                <Routes>
+                  <Route index element={<AdminProblemOverview />} />
+                  <Route path="users" element={<AdminUsers />} />
+                  <Route path="users/:userId" element={<AdminUserDetail />} />
+                  <Route path="providers" element={<AdminProviders />} />
+                  <Route path="providers/:providerId" element={<AdminProviders />} />
+                  <Route path="bookings" element={<AdminBookings />} />
+                  <Route path="bookings/:bookingId" element={<AdminBookings />} />
+                  <Route path="payments" element={<AdminPayments />} />
+                  <Route path="payments/:paymentId" element={<AdminPayments />} />
+                  <Route path="complaints" element={<AdminComplaints />} />
+                  <Route path="complaints/:complaintId" element={<AdminComplaints />} />
+                  <Route path="ai" element={<AdminAI />} />
+                  <Route path="system" element={<AdminSystem />} />
+                  <Route path="logs" element={<AdminSystem />} />
+                </Routes>
+              </AdminLayout>
             </AdminGuard>
           }
-        >
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="users" element={<div>Admin Users Page (TODO)</div>} />
-          <Route path="orders" element={<div>Admin Orders Page (TODO)</div>} />
-          <Route path="payments" element={<div>Admin Payments Page (TODO)</div>} />
-          <Route path="complaints" element={<div>Admin Complaints Page (TODO)</div>} />
-          <Route path="ai" element={<div>Admin AI System Page (TODO)</div>} />
-          <Route path="system" element={<div>Admin System Page (TODO)</div>} />
-          <Route index element={<Navigate to="/admin/dashboard" replace />} />
-        </Route>
+        />
       </Routes>
     </HashRouter>
   );

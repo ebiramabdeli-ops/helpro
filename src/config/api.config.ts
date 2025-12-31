@@ -123,3 +123,66 @@ export const ERROR_MESSAGES = {
   SERVER_ERROR: 'Server error. Please try again later.',
   VALIDATION_ERROR: 'Please check your input and try again.',
 };
+
+/**
+ * Simple API Client
+ */
+export const apiClient = {
+  get: async (url: string, options?: RequestInit) => {
+    const token = localStorage.getItem(config.auth.tokenKey);
+    const response = await fetch(`${config.api.baseUrl}${url}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  },
+  post: async (url: string, data?: any, options?: RequestInit) => {
+    const token = localStorage.getItem(config.auth.tokenKey);
+    const response = await fetch(`${config.api.baseUrl}${url}`, {
+      method: 'POST',
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+      body: data ? JSON.stringify(data) : undefined,
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  },
+  put: async (url: string, data?: any, options?: RequestInit) => {
+    const token = localStorage.getItem(config.auth.tokenKey);
+    const response = await fetch(`${config.api.baseUrl}${url}`, {
+      method: 'PUT',
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+      body: data ? JSON.stringify(data) : undefined,
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  },
+  delete: async (url: string, options?: RequestInit) => {
+    const token = localStorage.getItem(config.auth.tokenKey);
+    const response = await fetch(`${config.api.baseUrl}${url}`, {
+      method: 'DELETE',
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  },
+};

@@ -217,4 +217,28 @@ export function detectLocale(): Locale {
   return 'en-GB'; // Default fallback
 }
 
+/**
+ * Hook to use translations in components
+ */
+export function useTranslation() {
+  const locale = getCurrentLocale();
+  
+  const t = (key: string): string => {
+    const keys = key.split('.');
+    let value: any = translations[locale];
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return key; // Return key if translation not found
+      }
+    }
+    
+    return typeof value === 'string' ? value : key;
+  };
+  
+  return { t, locale };
+}
+
 export default translations;
