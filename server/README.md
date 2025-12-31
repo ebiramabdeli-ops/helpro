@@ -1,237 +1,277 @@
-# Helpro Backend
+# Helpro API Server - Security Enhanced 🔒
 
-Vollständiges Express.js Backend für die Helpro Marketplace-Anwendung.
+Sicherer TypeScript-basierter API-Server mit MFA, Telefon-Verifizierung und umfassenden Sicherheitsmaßnahmen.
 
-## Features
+## 🔐 Sicherheitsfeatures
 
-- ✅ **Authentifizierung**: JWT-basierte Auth mit bcrypt Password-Hashing
-- ✅ **JSON-Datenbank**: Persistente Datenspeicherung in data.json (auto-save alle 30s)
-- ✅ **RESTful API**: Vollständige CRUD-Operationen für alle Ressourcen
-- ✅ **Middleware**: Error handling, Auth-Protection
-- ✅ **In-Memory Performance**: Schnelle Operationen mit periodischem Sync
+### Authentifizierung & Autorisierung
+- ✅ **JWT Authentication** mit sicheren Tokens
+- ✅ **Multi-Factor Authentication (MFA)** mit TOTP (Google Authenticator, etc.)
+- ✅ **Phone Verification** mit SMS-Codes
+- ✅ **Password Policy Enforcement** (Min. 8 Zeichen, Groß-/Kleinbuchstaben, Zahlen, Sonderzeichen)
+- ✅ **Account Locking** nach 5 fehlgeschlagenen Login-Versuchen (15 Min. Sperre)
+- ✅ **Backup Codes** für MFA-Wiederherstellung
 
-## Installation
+### Schutz vor Angriffen
+- ✅ **Rate Limiting** (General: 100 req/15min, Login: 5 req/15min)
+- ✅ **Helmet.js** für sichere HTTP-Headers
+- ✅ **CORS** mit Whitelist-Konfiguration
+- ✅ **Input Validation & Sanitization** gegen XSS
+- ✅ **SQL Injection Prevention** (Parameter-basierte Queries)
+- ✅ **Brute Force Protection** mit Account Locking
+- ✅ **CSRF Protection** (Token-basiert)
+
+### Best Practices
+- ✅ **bcrypt** für Password Hashing (12 Rounds)
+- ✅ **Secure Headers** (X-Content-Type-Options, X-Frame-Options, HSTS)
+- ✅ **Error Handling** ohne sensitive Information Leakage
+- ✅ **Request Size Limits** (10MB)
+- ✅ **TypeScript** für Type Safety
+
+## 🚀 Installation
 
 ```bash
 cd server
+
+# Dependencies installieren
 npm install
-```
 
-## Konfiguration
-
-Erstelle eine `.env` Datei basierend auf `.env.example`:
-
-```bash
+# Environment konfigurieren
 cp .env.example .env
-```
+# Bearbeite .env und setze JWT_SECRET!
 
-Bearbeite die `.env` Datei:
-```
-PORT=8080
-JWT_SECRET=dein-sicherer-secret-key
-NODE_ENV=development
-```
+# Development starten
+npm run dev
 
-## Starten
-
-```bash
+# Production Build
+npm run build
 npm start
 ```
 
-Der Server läuft auf `http://localhost:8080`
+## 📡 API Endpoints
 
-## API-Endpunkte
+### Authentication
 
-### Authentication (`/api/auth`)
+#### Register
+```http
+POST /api/auth/register
+Content-Type: application/json
 
-| Method | Endpoint | Auth | Beschreibung |
-|--------|----------|------|--------------|
-| POST | `/api/auth/register` | - | Neuen User registrieren |
-| POST | `/api/auth/login` | - | Login und Token erhalten |
-| GET | `/api/auth/me` | ✓ | Aktuellen User abrufen |
-| PATCH | `/api/auth/me` | ✓ | Profil aktualisieren |
-| GET | `/api/auth/:id` | - | User nach ID abrufen |
-| GET | `/api/auth` | - | Alle Users abrufen (mit Filtern) |
-
-**Register Request:**
-```json
 {
   "name": "Max Mustermann",
   "email": "max@example.com",
-  "password": "sicheres-passwort",
-  "role": "customer"
+  "password": "SecurePass123!",
+  "role": "customer",
+  "phone": "+491234567890"
 }
 ```
 
-**Login Request:**
-```json
+#### Login
+```http
+POST /api/auth/login
+Content-Type: application/json
+
 {
   "email": "max@example.com",
-  "password": "sicheres-passwort"
+  "password": "SecurePass123!"
 }
-```
 
-**Response:**
-```json
+# Response (wenn MFA aktiviert):
 {
-  "user": {
-    "id": "user-xxx",
-    "name": "Max Mustermann",
-    "email": "max@example.com",
-    "role": "customer"
-  },
-  "token": "eyJhbGciOiJIUzI1NiIs..."
+  "requireMFA": true,
+  "token": "short-lived-token",
+  "message": "MFA verification required"
 }
 ```
 
-### Requests (`/api/requests`)
+#### Verify MFA
+```http
+POST /api/auth/verify-mfa
+Authorization: Bearer <short-lived-token>
+Content-Type: application/json
 
-| Method | Endpoint | Auth | Beschreibung |
-|--------|----------|------|--------------|
-| POST | `/api/requests` | ✓ | Neue Hilfe-Anfrage erstellen |
-| GET | `/api/requests` | - | Alle Anfragen abrufen |
-| GET | `/api/requests/my` | ✓ | Eigene Anfragen abrufen |
-| GET | `/api/requests/:id` | - | Anfrage nach ID |
-| PATCH | `/api/requests/:id` | ✓ | Anfrage aktualisieren |
-| PATCH | `/api/requests/:id/status` | ✓ | Status aktualisieren |
-| DELETE | `/api/requests/:id` | ✓ | Anfrage löschen |
-
-**Create Request:**
-```json
 {
-  "title": "Umzugshilfe benötigt",
-  "description": "2-Zimmer Wohnung, 3. Stock ohne Aufzug",
-  "category": "moving",
-  "budget": 100,
-  "location": "Berlin Mitte",
-  "scheduledDate": "2025-01-15T10:00:00Z"
+  "token": "123456"
 }
 ```
 
-### Bookings (`/api/bookings`)
+### Phone Verification
 
-| Method | Endpoint | Auth | Beschreibung |
-|--------|----------|------|--------------|
-| POST | `/api/bookings` | ✓ | Neue Buchung erstellen (Helper) |
-| GET | `/api/bookings` | ✓ | Eigene Buchungen abrufen |
-| GET | `/api/bookings/request/:requestId` | ✓ | Buchungen für Request |
-| GET | `/api/bookings/:id` | ✓ | Buchung nach ID |
-| PATCH | `/api/bookings/:id/status` | ✓ | Status aktualisieren |
-| POST | `/api/bookings/:id/review` | ✓ | Bewertung hinzufügen |
-| DELETE | `/api/bookings/:id` | ✓ | Buchung stornieren |
+#### Request Verification Code
+```http
+POST /api/auth/phone/request-verification
+Authorization: Bearer <token>
+Content-Type: application/json
 
-**Create Booking:**
-```json
 {
-  "requestId": "req-xxx",
-  "price": 85,
-  "proposedDate": "2025-01-15T10:00:00Z"
+  "phone": "+491234567890"
 }
-```
 
-**Add Review:**
-```json
+# Response:
 {
-  "rating": 5,
-  "review": "Sehr zuverlässig und freundlich!"
+  "message": "Verification code sent to your phone",
+  "code": "123456"  // Nur in Development!
 }
 ```
 
-### Messages (`/api/messages`)
+#### Verify Phone
+```http
+POST /api/auth/phone/verify
+Authorization: Bearer <token>
+Content-Type: application/json
 
-| Method | Endpoint | Auth | Beschreibung |
-|--------|----------|------|--------------|
-| POST | `/api/messages` | ✓ | Nachricht senden |
-| GET | `/api/messages/booking/:bookingId` | ✓ | Nachrichten für Buchung |
-| GET | `/api/messages/my` | ✓ | Alle eigenen Nachrichten |
-| PATCH | `/api/messages/:id/read` | ✓ | Als gelesen markieren |
-| POST | `/api/messages/booking/:bookingId/read-all` | ✓ | Alle als gelesen markieren |
-| DELETE | `/api/messages/:id` | ✓ | Nachricht löschen |
-
-**Send Message:**
-```json
 {
-  "bookingId": "booking-xxx",
-  "content": "Hallo, wann können wir starten?"
+  "code": "123456"
 }
 ```
 
-### AI Chat (`/api/ai/chat`)
+### MFA Setup
 
-Mock-Endpunkt für AI-Chat-Widget (keine Auth erforderlich).
+#### Setup MFA
+```http
+POST /api/auth/mfa/setup
+Authorization: Bearer <token>
 
-## Authorization
-
-Alle geschützten Endpunkte benötigen einen Bearer Token im Header:
-
-```
-Authorization: Bearer <your-jwt-token>
-```
-
-## Datenbank
-
-Die JSON-Datenbank wird automatisch gespeichert:
-- **Datei**: `server/data.json`
-- **Auto-Save**: Alle 30 Sekunden
-- **Beim Beenden**: Automatisch beim SIGINT/SIGTERM
-
-### Datenstruktur
-
-```json
+# Response:
 {
-  "users": [...],
-  "requests": [...],
-  "bookings": [...],
-  "messages": [...]
+  "secret": "JBSWY3DPEHPK3PXP",
+  "qrCode": "data:image/png;base64,...",
+  "backupCodes": ["ABCD1234", "EFGH5678", ...],
+  "message": "Scan the QR code with your authenticator app"
 }
 ```
 
-## Error Handling
+#### Enable MFA
+```http
+POST /api/auth/mfa/enable
+Authorization: Bearer <token>
+Content-Type: application/json
 
-Alle Fehler werden als JSON zurückgegeben:
-
-```json
 {
-  "error": "User not found"
+  "secret": "JBSWY3DPEHPK3PXP",
+  "token": "123456"
 }
 ```
 
-HTTP Status Codes:
-- 200: Success
-- 201: Created
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
-- 404: Not Found
-- 409: Conflict
-- 500: Internal Server Error
+#### Disable MFA
+```http
+POST /api/auth/mfa/disable
+Authorization: Bearer <token>
+Content-Type: application/json
 
-## Development
+{
+  "password": "SecurePass123!",
+  "token": "123456"
+}
+```
+
+## 🔒 Sicherheitsrichtlinien
+
+### Password Requirements
+- Mindestens 8 Zeichen
+- Mindestens 1 Großbuchstabe
+- Mindestens 1 Kleinbuchstabe
+- Mindestens 1 Zahl
+- Mindestens 1 Sonderzeichen
+
+### Rate Limits
+- **General API**: 100 Requests pro 15 Minuten
+- **Login**: 5 Versuche pro 15 Minuten
+- **Phone Verification**: 3 Requests pro Stunde
+- **MFA Verification**: 5 Versuche pro 15 Minuten
+
+### Account Locking
+- Nach 5 fehlgeschlagenen Login-Versuchen
+- Automatische Entsperrung nach 15 Minuten
+- Manuelle Entsperrung durch Admin möglich
+
+### Phone Verification
+- 6-stelliger Code
+- Gültig für 10 Minuten
+- Max. 3 Verifizierungsversuche
+
+## 🛡️ Production Checklist
+
+- [ ] **JWT_SECRET** auf starken, zufälligen Wert setzen (min. 32 Zeichen)
+- [ ] **NODE_ENV=production** setzen
+- [ ] **CORS_ORIGIN** auf Production-Domain setzen
+- [ ] **HTTPS** verwenden (Let's Encrypt)
+- [ ] **SMS Provider** konfigurieren (Twilio, AWS SNS, etc.)
+- [ ] **Email Provider** konfigurieren für Notifications
+- [ ] **Database** auf PostgreSQL migrieren (aktuell JSON-basiert)
+- [ ] **Logging** implementieren (Winston, Pino)
+- [ ] **Monitoring** einrichten (Sentry, DataDog, etc.)
+- [ ] **Backup Strategy** für data.json implementieren
+- [ ] **Firewall** konfigurieren (nur notwendige Ports öffnen)
+- [ ] **Reverse Proxy** verwenden (Nginx, Caddy)
+- [ ] **Docker Secrets** für sensible Daten verwenden
+
+## 📊 Monitoring & Logging
+
+```http
+GET /api/health
+
+# Response:
+{
+  "status": "ok",
+  "timestamp": "2025-12-31T04:30:00.000Z",
+  "uptime": 3600,
+  "environment": "production"
+}
+```
+
+## 🔧 Development
 
 ```bash
-# Backend starten
-npm start
+# TypeScript compilation check
+npm run typecheck
 
-# Beide Server starten (von Root-Dir)
-npm run dev:full
+# Build für Production
+npm run build
+
+# Clean dist folder
+npm run clean
 ```
 
-## Testen
+## 📝 Migration von JavaScript
 
-```bash
-# User registrieren
-curl -X POST http://localhost:8080/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Test User","email":"test@example.com","password":"password123","role":"customer"}'
+Die alte JavaScript-Version befindet sich noch in den Root-Dateien:
+- `index.js` → `src/index.ts`
+- `database.js` → `src/database.ts`
+- `middleware/auth.js` → `src/middleware/auth.ts`
+- `routes/auth.js` → `src/routes/auth.ts`
 
-# Login
-curl -X POST http://localhost:8080/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
+Alle neuen Features sind nur in der TypeScript-Version verfügbar.
 
-# Request erstellen (mit Token)
-curl -X POST http://localhost:8080/api/requests \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{"title":"Umzug","description":"Hilfe benötigt","category":"moving","budget":100,"location":"Berlin"}'
-```
+## 🚨 Known Issues
+
+- SMS-Versand noch nicht implementiert (Code wird in Console geloggt)
+- Email-Benachrichtigungen noch nicht implementiert
+- Backup-Codes werden nicht persistiert
+- JSON-Datenbank nicht Production-ready (PostgreSQL empfohlen)
+
+## 📚 Dependencies
+
+### Core
+- `express` - Web Framework
+- `typescript` - Type Safety
+- `tsx` - TypeScript Execution
+
+### Security
+- `helmet` - Security Headers
+- `cors` - CORS Configuration
+- `express-rate-limit` - Rate Limiting
+- `bcryptjs` - Password Hashing
+- `jsonwebtoken` - JWT Authentication
+
+### MFA & Verification
+- `speakeasy` - TOTP Generation
+- `qrcode` - QR Code Generation
+
+## 📞 Support
+
+Bei Fragen oder Problemen, kontaktiere das Development-Team.
+
+---
+
+**⚠️ WICHTIG**: Niemals Secrets oder Credentials in Git committen!
